@@ -11,6 +11,8 @@ int main(int argc, char *argv[])
     vector<int> values;
     parse_file_int("input1.txt", values);
 
+    sort(values.begin(), values.end());
+
     int v1, v2, v3;
     for (int i = 0; i < values.size(); ++i)
     {
@@ -23,15 +25,13 @@ int main(int argc, char *argv[])
             v2 = values[j];
             if ((v1 + v2) > 2019)
                 continue;
+
+            int target = 2020 - (v1 + v2);
             
-            for (int k = j; k < values.size(); ++k)
+            if (std::binary_search(values.begin(), values.end(), target))
             {
-                v3 = values[k];
-                if (v1 + v2 + v3 == 2020)
-                {
-                    cout << v1 * v2 * v3 << endl;
-                    goto end;
-                }
+                cout << v1 << endl << v2 << endl << target << endl;
+                goto end;
             }
         }
     }
