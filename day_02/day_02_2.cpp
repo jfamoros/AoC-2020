@@ -28,8 +28,7 @@ int main(int argc, char *argv[])
                 ++it;
             }
             *it = '\0';
-            //cout << v_start << "-";
-            l = stoi(v_start);
+            l = stoi(v_start) - 1;
 
             ++it;
             v_start = it;
@@ -39,30 +38,22 @@ int main(int argc, char *argv[])
                 ++it;
             }
             *it = '\0';
-            //cout << v_start << " ";
-            h = stoi(v_start);
+            h = stoi(v_start) - 1;
 
             // next character is our target
             target = *(it + 1);
-            //cout << target << " : ";
 
             //advance to first character of the password
             it += 4;
             v_start = it;
 
-            int occurrences {};
             while (*it != '\n')
             {
-                if (target == *it)
-                {
-                    ++occurrences;
-                }
                 ++it;
             }
             *it = '\0';
-            //cout << v_start << endl;
-            if (occurrences >= l && occurrences <= h) ++valid_counter; 
 
+            if (!(*(v_start + l) == target) != !(*(v_start + h) == target)) ++valid_counter;
             ++it;
         }
 
