@@ -6,7 +6,6 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     ifstream in("input1.txt", ios::in);
-    ofstream out("output.txt", ios::out);
 
     if (in)
     {
@@ -22,47 +21,30 @@ int main(int argc, char *argv[])
 
         int len_row {31};
 
-        cout << len_row << endl;
-
         it = input;
         int trees {};
-        int x {2};
-
-        it += len_row + 3;
-        int skip {len_row / 3};
-        int skips {0};
-        cout << skip << endl;
-        int i {1};
+        int x_offset {3}, y_offset {1 * len_row};
+        int x {};
 
         while (*it)
         {
             if (*it == '#') ++trees;
             *it = 'O';
 
-            if (i == skip)
+            x += x_offset;
+
+            if (x >= len_row)
             {
-                ++skips;
-                it += 3;
-                if (skips == 3) 
-                { 
-                    i = 0; 
-                    skips = 0;
-                }
-                else 
-                    i = 1;
+                x = x % len_row;
+                it += x_offset + y_offset - len_row;
             }
             else
             {
-                it += len_row + 3;
-                ++i;
+                it += y_offset + x_offset;
             }
         }
         
         cout << trees << endl;
-        if (out)
-        {
-            out.write(input, size);
-        }
     }
     else
     {
