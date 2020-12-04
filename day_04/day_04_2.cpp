@@ -2,19 +2,28 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <regex>
 
 using namespace std;
 
+const regex birth("byr:(19[2-9][0-9]|200[0-2])");
+const regex issue("iyr:(201[0-9]|2020)");
+const regex expiration("eyr:(202[0-9]|2030)");
+const regex height("hgt:((1[5-8][0-9]|19[0-3])cm|(59|6[0-9]|7[0-6])in)");
+const regex hair("hcl:#(\\d|[a-f]){6}");
+const regex eye("ecl:(amb|blu|brn|gry|grn|hzl|oth)");
+const regex pid("pid:[0-9]{9}");
+
 bool is_valid(string &passport)
 {
-    if (passport.find("byr:") == string::npos) return false;
-    if (passport.find("iyr:") == string::npos) return false;
-    if (passport.find("eyr:") == string::npos) return false;
-    if (passport.find("hgt:") == string::npos) return false;
-    if (passport.find("hcl:") == string::npos) return false;
-    if (passport.find("ecl:") == string::npos) return false;
-    if (passport.find("pid:") == string::npos) return false;
-           
+    if (!regex_search(passport, birth)) return false;
+    if (!regex_search(passport, issue)) return false;
+    if (!regex_search(passport, expiration)) return false;
+    if (!regex_search(passport, height)) return false;
+    if (!regex_search(passport, hair)) return false;
+    if (!regex_search(passport, eye)) return false;
+    if (!regex_search(passport, pid)) return false;
+       
     return true;
 }
 
