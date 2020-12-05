@@ -5,6 +5,7 @@
 #include <vector>
 #include <queue>
 #include <cstdint>
+#include <algorithm>
 
 using namespace std;
 
@@ -24,7 +25,8 @@ int main(int argc, char *argv[])
 
         char *it = input; 
         int max_id {};
-        int max_row {};
+
+        bool seats[938] {};
 
         while (*it)
         {
@@ -43,14 +45,16 @@ int main(int argc, char *argv[])
             col = (*(++it) == 'R') ? ++col << 1 : col << 1;
             if (*(++it) == 'R') ++col;
 
-            uint16_t id = (row << 3) + col;
-            if (id > max_id) max_id = id;
+            seats[(row << 3) + col] = true;
 
             it += 2;
         }
 
-        cout << max_id << endl;
+        unsigned i = 938;
+        while (seats[--i] != false) continue;
+
+        cout << i << endl;
     }
 
-  return 0;
+    return 0;
 }
