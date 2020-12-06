@@ -6,12 +6,14 @@
 #include <queue>
 #include <cstdint>
 #include <algorithm>
+#include <chrono>
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    fstream in("input.txt", ios::in);
+    auto begin = chrono::high_resolution_clock::now();
+    fstream in("bigboy.txt", ios::in);
 
     if (in)
     {
@@ -26,14 +28,20 @@ int main(int argc, char *argv[])
         char *it = input; 
         int max_id {};
 
-        bool seats[938] {};
+        bool seats[259982] {};
 
         while (*it)
         {
-            uint16_t row {};
+            uint32_t row {};
             uint8_t col {};
 
             row = (*it == 'B') ? ++row << 1 : row << 1;
+            row = (*(++it) == 'B') ? ++row << 1 : row << 1;
+            row = (*(++it) == 'B') ? ++row << 1 : row << 1;
+            row = (*(++it) == 'B') ? ++row << 1 : row << 1;
+            row = (*(++it) == 'B') ? ++row << 1 : row << 1;
+            row = (*(++it) == 'B') ? ++row << 1 : row << 1;
+            row = (*(++it) == 'B') ? ++row << 1 : row << 1;
             row = (*(++it) == 'B') ? ++row << 1 : row << 1;
             row = (*(++it) == 'B') ? ++row << 1 : row << 1;
             row = (*(++it) == 'B') ? ++row << 1 : row << 1;
@@ -43,15 +51,21 @@ int main(int argc, char *argv[])
 
             col = (*(++it) == 'R') ? ++col << 1 : col << 1;
             col = (*(++it) == 'R') ? ++col << 1 : col << 1;
+            col = (*(++it) == 'R') ? ++col << 1 : col << 1;
+            col = (*(++it) == 'R') ? ++col << 1 : col << 1;
             if (*(++it) == 'R') ++col;
 
-            seats[(row << 3) + col] = true;
+            seats[(row << 5) + col] = true;
 
             it += 2;
         }
 
-        unsigned i = 938;
+        unsigned i = 225998;
         while (seats[--i] != false) continue;
+
+        auto end = chrono::high_resolution_clock::now();
+        auto duration = chrono::duration_cast<chrono::nanoseconds>(end-begin).count();
+        cout << duration / 1000000.0 << " milliseconds" << endl;
 
         cout << i << endl;
     }

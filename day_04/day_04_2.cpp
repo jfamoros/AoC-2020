@@ -12,7 +12,7 @@ const regex expiration("eyr:(202[0-9]|2030)");
 const regex height("hgt:((1[5-8][0-9]|19[0-3])cm|(59|6[0-9]|7[0-6])in)");
 const regex hair("hcl:#(\\d|[a-f]){6}");
 const regex eye("ecl:(amb|blu|brn|gry|grn|hzl|oth)");
-const regex pid("pid:[0-9]{9}");
+const regex pid("pid:[0-9]{9}\\D");
 
 bool is_valid(string &passport)
 {
@@ -29,7 +29,7 @@ bool is_valid(string &passport)
 
 int main(int argc, char *argv[])
 {
-    fstream in("input.txt", ios::in);
+    fstream in("syoru.txt", ios::in);
 
     if (in)
     {

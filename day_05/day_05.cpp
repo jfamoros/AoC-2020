@@ -5,12 +5,14 @@
 #include <vector>
 #include <queue>
 #include <cstdint>
+#include <chrono>
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-    fstream in("input.txt", ios::in);
+    auto begin = chrono::high_resolution_clock::now();
+    fstream in("bigboy.txt", ios::in);
 
     if (in)
     {
@@ -23,15 +25,20 @@ int main(int argc, char *argv[])
         in.close();
 
         char *it = input; 
-        int max_id {};
-        int max_row {};
+        uint32_t max_id {};
 
         while (*it)
         {
-            uint16_t row {};
+            uint32_t row {};
             uint8_t col {};
 
             row = (*it == 'B') ? ++row << 1 : row << 1;
+            row = (*(++it) == 'B') ? ++row << 1 : row << 1;
+            row = (*(++it) == 'B') ? ++row << 1 : row << 1;
+            row = (*(++it) == 'B') ? ++row << 1 : row << 1;
+            row = (*(++it) == 'B') ? ++row << 1 : row << 1;
+            row = (*(++it) == 'B') ? ++row << 1 : row << 1;
+            row = (*(++it) == 'B') ? ++row << 1 : row << 1;
             row = (*(++it) == 'B') ? ++row << 1 : row << 1;
             row = (*(++it) == 'B') ? ++row << 1 : row << 1;
             row = (*(++it) == 'B') ? ++row << 1 : row << 1;
@@ -41,9 +48,11 @@ int main(int argc, char *argv[])
 
             col = (*(++it) == 'R') ? ++col << 1 : col << 1;
             col = (*(++it) == 'R') ? ++col << 1 : col << 1;
+            col = (*(++it) == 'R') ? ++col << 1 : col << 1;
+            col = (*(++it) == 'R') ? ++col << 1 : col << 1;
             if (*(++it) == 'R') ++col;
 
-            uint16_t id = (row << 3) + col;
+            uint32_t id = (row << 5) + col;
             if (id > max_id) max_id = id;
 
             it += 2;
