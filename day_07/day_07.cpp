@@ -4,17 +4,19 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <chrono>
 
 using namespace std;
 
 unordered_map<string, vector<pair<string, int>>> rules;
+static const string target("shiny gold");
 
 bool can_hold(const string& bag)
 {
     for (auto& b : rules[bag])
     {
-        if (b.first == "shiny gold") return true;
-        if (can_hold(b.first)) return true;
+        if (b.first == target) return true;
+        if (can_hold(move(b.first))) return true;
     }
 
     return false;
@@ -25,7 +27,7 @@ int n_bags(const string& bag)
     int total {};
     for (const auto& b : rules[bag])
     {
-        total += b.second + (b.second*n_bags(b.first));
+        total += b.second + (b.second*n_bags(move(b.first)));
     }
 
     return total;
@@ -33,6 +35,7 @@ int n_bags(const string& bag)
 
 int main(int argc, char *argv[])
 {
+    auto begin = chrono::high_resolution_clock::now();
     fstream in("input.txt", ios::in);
 
     if (in)
@@ -46,6 +49,7 @@ int main(int argc, char *argv[])
         in.close();
 
         char *it = input; 
+        rules.reserve(600);
     
         while (*it)
         {
@@ -103,10 +107,9 @@ int main(int argc, char *argv[])
             total += can_hold(r.first);
         }
 
-        cout << total << endl;
-
-        cout << n_bags("shiny gold") << endl;
-
+        auto end = chrono::high_resolution_clock::now();
+        auto duration = chrono::duration_cast<chrono::nanoseconds>(end-begin).count();
+        cout << duration / 1000000.0 << " milliseconds" << endl;
     }
 
     return 0;
